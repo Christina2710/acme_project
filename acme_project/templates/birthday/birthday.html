@@ -3,18 +3,19 @@
 {% block content %}
   <!-- Переносим тег with в самое начало блока content. -->
   {% with data=form.instance %}
-    {% if '/edit/' in request.path %}
-      <!-- Вместо form.instance подставляем data. -->
+    {% if "/edit/" in request.path %}
       <h1>Редактировать запись {{ data.pk }}</h1>
+    {% elif "/delete/" in request.path %}
+      <h1>Удалить запись {{ data.pk }}</h1>
     {% else %}
-      <h1>Удалить запись</h1>
+      <h1>Создать запись</h1>
     {% endif %}
     <div class="card col-4">
       <div class="card-header">
         Калькулятор ожидания дня рождения
       </div>
       <div class="card-body">
-        <form method="post">
+        <form method="post" enctype="multipart/form-data">
           {% csrf_token %}
           {% if not "/delete/" in request.path %}
             {% bootstrap_form form %}
